@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мафия - Игра</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Скрытое поле для хранения имени пользователя -->
+    <div id="my-username" style="display: none;">{{ user.username }}</div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="right">
+                            <a href="{{ url_for('logout') }}" class="btn-flat waves-effect waves-light">
+                                Выйти
+                            </a>
+                        </div>
+                        <span class="card-title">Комната: {{ room.code }}</span>
+                        <p id="game-status">
+                            {% if room.status == 'waiting' %}
+                            🕒 Ожидание игроков
+                            {% elif room.status == 'playing' %}
+                            🎮 Игра идет
+                            {% else %}
+                            🏁 Игра окончена
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12 m4">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Игроки</span>
+                        <div id="players-list" class="collection">
+                            {% for player in room.players %}
+                            <div class="collection-item" data-username="{{ player.username }}">
+                                {{ player.username }}
+                                {% if not player.is_alive %}
+                                <span class="badge">☠️</span>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% if room.status == 'waiting' and room.get_players_count() >= 4 %}
+                        <button id="start-game" class="waves-effect waves-light btn">Начать игру</button>
+                        {% endif %}
+                    </div>
+                </div>
+                <!-- Добавляем секцию для карты роли -->
+                <div class="card" id="role-card-section" style="display: none;">
+                    <div class="card-content">
+                        <span class="card-title">Ваша роль</span>
+                        <div class="role-card-container">
+                            <img id="role-card-image" src="" alt="Карта роли" class="responsive-img">
+                            <!-- Добавляем информацию о роли -->
+                            <div class="role-info">
+                                <h5 id="role-name" class="center-align"></h5>
+                                <p id="role-goal" class="center-align"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col s12 m8">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Чат</span>
+                        <div id="chat-messages" class="chat-messages"></div>
+                        <div class="input-field">
+                            <input type="text" id="chat-input" placeholder="Введите сообщение...">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Действия</span>
+                        <div id="action-area">
+                            {% if room.status == 'waiting' %}
+                                <p>Ожидаем подключения игроков...</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для отображения роли -->
+    <div id="role-modal" class="modal">
+        <div class="modal-content">
+            <div id="role-text"></div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Понятно</a>
+        </div>
+    </div>
+
+    <!-- Модальное окно для окончания игры -->
+    <div id="game-over-modal" class="modal">
+        <div class="modal-content">
+            <h4>Игра окончена</h4>
+            <div id="game-over-text"></div>
+        </div>
+        <div class="modal-footer">
+            <a href="/" class="waves-effect waves-green btn-flat">Вернуться в лобби</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 

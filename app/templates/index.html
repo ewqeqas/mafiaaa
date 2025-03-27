@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мафия - Главная</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        
+
+        <div class="row">
+            <div class="col s12 center-align">
+                <h1>Мафия Онлайн</h1>
+                <p class="flow-text">
+                    Только хардкор, в вашей сессии могут быть 3 мафии, один шериф,<br>
+                    а может и не быть. Делитесь сессиями, сообщайте друзьям код комнаты.<br>
+                    Играйте с друзьями, либо с незнакомцами.
+                </p>
+                
+                <div class="row">
+                    <form id="join-form" class="col s12 m8 offset-m2">
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="username" name="username" type="text" class="validate" required>
+                                <label for="username">Ваш никнейм</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input id="room-code" name="room_code" type="text">
+                                <label for="room-code">Код комнаты (если хотите присоединиться)</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <button type="submit" class="waves-effect waves-light btn-large blue">Присоединиться к игре</button>
+                                <button type="button" id="create-room" class="waves-effect waves-light btn-large green">Создать новую игру</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Перемещаем кнопку вниз и делаем её больше -->
+        
+
+        <!-- Добавьте эту кнопку в существующий код -->
+        <div class="row center-align" style="margin-top: 20px;">
+            <a href="{{ url_for('show_roles') }}" class="btn-large waves-effect waves-light">
+                <i class="material-icons left">help_outline</i>
+                Посмотреть все роли
+            </a>
+        </div>
+    </div>
+
+    <!-- Обновленное модальное окно -->
+    <div id="cards-modal" class="modal">
+        <div class="modal-content">
+            <h3 class="center-align" style="color: #26a69a; margin-bottom: 40px;">Роли в игре</h3>
+            <div class="row">
+                <!-- Мирный житель -->
+                <div class="col s12 m6">
+                    <div class="card large">
+                        <div class="card-image">
+                            <img src="{{ url_for('static', filename='images/mirniy.jpg') }}" alt="Мирный житель">
+                            <span class="card-title" style="font-size: 2rem; background: rgba(0,0,0,0.7); width: 100%;">
+                                Мирный житель
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <h5 class="blue-grey-text">Способности:</h5>
+                            <p class="flow-text" style="font-size: 1.3rem;">
+                                Участвует в обсуждениях и голосовании днём. 
+                                Задача - найти и вычислить мафию путём дедукции и командной работы.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Мафия -->
+                <div class="col s12 m6">
+                    <div class="card large">
+                        <div class="card-image">
+                            <img src="{{ url_for('static', filename='images/mafia.jpg') }}" alt="Мафия">
+                            <span class="card-title" style="font-size: 2rem; background: rgba(0,0,0,0.7); width: 100%;">
+                                Мафия
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <h5 class="blue-grey-text">Способности:</h5>
+                            <p class="flow-text" style="font-size: 1.3rem;">
+                                Каждую ночь может убить одного игрока. 
+                                Днём притворяется мирным жителем. 
+                                Цель - устранить всех мирных жителей.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Доктор -->
+                <div class="col s12 m6">
+                    <div class="card large">
+                        <div class="card-image">
+                            <img src="{{ url_for('static', filename='images/doctor.jpg') }}" alt="Доктор">
+                            <span class="card-title" style="font-size: 2rem; background: rgba(0,0,0,0.7); width: 100%;">
+                                Доктор
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <h5 class="blue-grey-text">Способности:</h5>
+                            <p class="flow-text" style="font-size: 1.3rem;">
+                                Каждую ночь может выбрать одного игрока для лечения. 
+                                Если мафия попытается убить этого игрока, он выживет.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Шериф -->
+                <div class="col s12 m6">
+                    <div class="card large">
+                        <div class="card-image">
+                            <img src="{{ url_for('static', filename='images/sheriff.jpg') }}" alt="Шериф">
+                            <span class="card-title" style="font-size: 2rem; background: rgba(0,0,0,0.7); width: 100%;">
+                                Шериф
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <h5 class="blue-grey-text">Способности:</h5>
+                            <p class="flow-text" style="font-size: 1.3rem;">
+                                Каждую ночь может проверить одного игрока и узнать, 
+                                является ли он мафией. Ключевая роль в поиске преступников.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col s12 m6">
+                    <div class="card large">
+                        <div class="card-image">
+                            <img src="{{ url_for('static', filename='images/sanya.jpg') }}" alt="Шлюха">
+                            <span class="card-title" style="font-size: 2rem; background: rgba(0,0,0,0.7); width: 100%;">
+                                Шлюха
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <h5 class="blue-grey-text">Способности:</h5>
+                            <p class="flow-text" style="font-size: 1.3rem;">
+                                Шлюхи пока что нет в игре, так как ей нет 18, но скоро она появится. 
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-large">Закрыть</a>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        document.getElementById('join-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const roomCode = document.getElementById('room-code').value.trim();
+            
+            if (!roomCode) {
+                M.toast({html: 'Введите код комнаты для присоединения'});
+                return;
+            }
+            
+            fetch('/join', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `username=${encodeURIComponent(username)}&room_code=${encodeURIComponent(roomCode)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/game';
+                } else {
+                    M.toast({html: data.error});
+                }
+            })
+            .catch(error => {
+                M.toast({html: 'Произошла ошибка при подключении к игре'});
+            });
+        });
+
+        document.getElementById('create-room').addEventListener('click', function(e) {
+            const username = document.getElementById('username').value.trim();
+            
+            if (!username) {
+                M.toast({html: 'Введите никнейм для создания игры'});
+                return;
+            }
+            
+            fetch('/join', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `username=${encodeURIComponent(username)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '/game';
+                } else {
+                    M.toast({html: data.error});
+                }
+            })
+            .catch(error => {
+                M.toast({html: 'Произошла ошибка при создании игры'});
+            });
+        });
+
+        // Инициализация модального окна
+        document.addEventListener('DOMContentLoaded', function() {
+            var modals = document.querySelectorAll('.modal');
+            M.Modal.init(modals, {
+                dismissible: true,
+                opacity: 0.5,
+                inDuration: 300,
+                outDuration: 200,
+                startingTop: '1%',
+                endingTop: '1%', // Модальное окно будет открываться почти на весь экран
+                onOpenStart: function() {
+                    document.body.style.overflow = 'hidden'; // Предотвращаем прокрутку основной страницы
+                },
+                onCloseEnd: function() {
+                    document.body.style.overflow = ''; // Возвращаем прокрутку
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

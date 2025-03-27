@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мафия - Роли</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/roles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="row center-align">
+            <h1>Роли в игре</h1>
+            <a href="/" class="btn-large waves-effect waves-light" style="margin-bottom: 30px;">
+                <i class="material-icons left">arrow_back</i>
+                Вернуться на главную
+            </a>
+        </div>
+
+        <div class="row">
+            <!-- Мирный житель -->
+            <div class="col s12 m6">
+                <div class="role-card">
+                    <div class="card-image">
+                        <img src="{{ url_for('static', filename='images/mirniy.jpg') }}" alt="Мирный житель">
+                        <span class="card-title">Мирный житель</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="role-description">
+                            <h5>Способности:</h5>
+                            <ul>
+                                <li>Участвует в общем обсуждении</li>
+                                <li>Голосует против подозреваемых</li>
+                                <li>Помогает вычислить мафию</li>
+                            </ul>
+                            <p class="role-goal">Цель: найти и устранить всю мафию путем голосования.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Мафия -->
+            <div class="col s12 m6">
+                <div class="role-card">
+                    <div class="card-image mafia-image">
+                        <img src="{{ url_for('static', filename='images/mafia.jpg') }}" alt="Мафия">
+                        <span class="card-title">Мафия</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="role-description">
+                            <h5>Способности:</h5>
+                            <ul>
+                                <li>Убивает одного игрока каждую ночь</li>
+                                <li>Участвует в обсуждении под видом мирного</li>
+                                <li>Может блефовать и вводить в заблуждение</li>
+                            </ul>
+                            <p class="role-goal">Цель: устранить всех мирных жителей.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Доктор -->
+            <div class="col s12 m6">
+                <div class="role-card">
+                    <div class="card-image">
+                        <img src="{{ url_for('static', filename='images/doctor.jpg') }}" alt="Доктор">
+                        <span class="card-title">Доктор</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="role-description">
+                            <h5>Способности:</h5>
+                            <ul>
+                                <li>Лечит одного игрока каждую ночь</li>
+                                <li>Может спасти от убийства мафии</li>
+                                <li>Может лечить себя только один раз</li>
+                            </ul>
+                            <p class="role-goal">Цель: помогать мирным жителям, спасая их от мафии.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Шериф -->
+            <div class="col s12 m6">
+                <div class="role-card">
+                    <div class="card-image">
+                        <img src="{{ url_for('static', filename='images/sheriff.jpg') }}" alt="Шериф">
+                        <span class="card-title">Шериф</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="role-description">
+                            <h5>Способности:</h5>
+                            <ul>
+                                <li>Проверяет одного игрока каждую ночь</li>
+                                <li>Узнаёт принадлежность к мафии</li>
+                                <li>Помогает мирным жителям найти мафию</li>
+                            </ul>
+                            <p class="role-goal">Цель: выявить мафию и помочь мирным жителям.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col s12 m6">
+                <div class="role-card">
+                    <div class="card-image">
+                        <img src="{{ url_for('static', filename='images/sanya.jpg') }}" alt="Шлюха">
+                        <span class="card-title">Шлюха</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="role-description">
+                            <h5>Способности:</h5>
+                            <ul>
+                                <li>Шлюхи пока что нет в игре, так как ей нет 18, но скоро она появится.</li>
+                            </ul>
+                            <p class="role-goal">Цель: всех выебать и сиять.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html> 
