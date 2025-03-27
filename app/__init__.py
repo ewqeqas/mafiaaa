@@ -9,8 +9,12 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///game.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Инициализация базы данных и Socket.IO
-socketio = SocketIO(app, cors_allowed_origins="*")
+# Инициализация SocketIO с простым веб-сокетом
+socketio = SocketIO(app, 
+                   async_mode='threading',
+                   cors_allowed_origins="*",
+                   engineio_logger=True)
+
 db = SQLAlchemy(app)
 
 from app import routes, models
