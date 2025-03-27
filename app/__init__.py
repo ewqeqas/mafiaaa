@@ -1,19 +1,17 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO
-from flask_migrate import Migrate
+from flask_sqlalchemy import SQLAlchemy
 import os
 
 # Инициализация Flask приложения
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(24)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///game.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Инициализация базы данных и Socket.IO
+socketio = SocketIO(app, cors_allowed_origins="*")
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
-socketio = SocketIO(app)
 
 from app import routes, models
 
